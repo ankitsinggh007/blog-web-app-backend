@@ -9,10 +9,7 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-  origin: [
-    `${process.env.url}`, // Production URL
-    "http://localhost:5173", // Local development URL
-  ],
+  origin: `${process.env.url}`,
   methods: "GET,POST,PATCH,DELETE",
   credentials: true,
   optionsSuccessStatus: 200,
