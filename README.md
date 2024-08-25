@@ -34,6 +34,7 @@ MONGO_URI=<your-mongodb-atlas-uri>
 Server_Secret=<your-server-secret>
 Expire_Token=<token-expiration-time>
 Expire_Cookies=<cookie-expiration-time>
+url=<https://actual-frontend-url.com>
 ```
 ### 4. Create a MongoDB Database
 Create a MongoDB cluster on MongoDB Atlas or set up a local MongoDB instance.
