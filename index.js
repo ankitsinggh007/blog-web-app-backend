@@ -8,10 +8,9 @@ const cookieParser = require("cookie-parser");
 dotenv.config();
 
 const app = express();
-
 const corsOptions = {
   origin: [
-    "https://blog-web-app-frontend-23cp.vercel.app", // Production URL
+    `${process.env.url}`, // Production URL
     "http://localhost:5173", // Local development URL
   ],
   methods: "GET,POST,PATCH,DELETE",
