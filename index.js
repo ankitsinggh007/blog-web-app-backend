@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const routes = require("./routes");
+const apiRoutes = require("./routes/api");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
@@ -31,8 +31,11 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Define routes
-app.use("/", routes);
+app.use("/api", apiRoutes);
 
+app.get("/health", (req, res) => {
+  res.json({ status: "OK" });
+});
 // Global Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
