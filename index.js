@@ -9,10 +9,17 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-  origin: [`${process.env.url}`, "http://localhost:5173"],
+  origin:
+    process.env.NODE_ENV !== "development"
+      ? `${process.env.url}`
+      : "http://localhost:5173",
   credentials: true,
 };
-
+// console.log(
+//   process.env.NODE_ENV !== "development"
+//     ? `${process.env.url}`
+//     : "http://localhost:5173"
+// );
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
