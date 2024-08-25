@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-
 // Registration
 const register = async (req, res) => {
   try {
@@ -57,7 +56,7 @@ const login = async (req, res) => {
       ),
       httpOnly: true,
       sameSite: "strict",
-      secure: true,
+      // secure: true,
     };
     user = await User.findOne({ email }, "-password");
     res.status(200).cookie("token", token, option).json({ token, user });
