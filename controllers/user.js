@@ -1,7 +1,7 @@
-// server/controllers/authController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+
 
 // Registration
 const register = async (req, res) => {
@@ -53,11 +53,11 @@ const login = async (req, res) => {
 
     const option = {
       expires: new Date(
-        Date.now() + process.env.Expire_Cokies * 24 * 60 * 60 * 1000
+        Date.now() + process.env.Expire_Cokies * 60 * 60 * 1000
       ),
       httpOnly: true,
-      sameSite: "none",
-      // secure: true,
+      sameSite: "strict",
+      secure: true,
     };
     user = await User.findOne({ email }, "-password");
     res.status(200).cookie("token", token, option).json({ token, user });
