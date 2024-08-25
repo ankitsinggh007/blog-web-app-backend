@@ -55,8 +55,9 @@ const login = async (req, res) => {
         Date.now() + process.env.Expire_Cokies * 60 * 60 * 1000
       ),
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       secure: true,
+      maxAge: process.env.Expire_Cookies * 60 * 60 * 1000,
     };
     user = await User.findOne({ email }, "-password");
     res.status(200).cookie("token", token, option).json({ token, user });

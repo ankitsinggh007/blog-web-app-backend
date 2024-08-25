@@ -21,7 +21,6 @@ console.log(
     : "http://localhost:5173"
 );
 
-
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
