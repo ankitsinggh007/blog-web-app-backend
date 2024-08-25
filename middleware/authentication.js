@@ -3,13 +3,12 @@ const User = require("../models/User");
 
 const authMiddleware = async (req, res, next) => {
   console.log(req.cookies?.token, "token from cookies");
-  console.log(
-    req.headers?.authorization.split(" ")[1],
-    "token from authorization"
-  );
+  console.log(req.headers?.authorization, "token from authorization");
+
   try {
     const token =
-      req.cookies?.token || req.headers?.authorization.split(" ")[1];
+      req.cookies?.token ||
+      (req.headers?.authorization && req.headers?.authorization?.split(" ")[1]);
     if (!token) {
       return res.status(401).json({ message: "Authorization required" });
     }
