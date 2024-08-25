@@ -12,6 +12,9 @@ const register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
     }
+    if (existingUser.username === username) {
+      return res.status(400).json({ message: "username already exists" });
+    }
 
     // Create a new user
     const newUser = new User({
@@ -57,7 +60,6 @@ const login = async (req, res) => {
       httpOnly: true,
       sameSite: "none",
       secure: true,
-      // maxAge: process.env.Expire_Cookies * 60 * 60 * 1000,
     };
     user = await User.findOne({ email }, "-password");
     res.status(200).cookie("token", token, option).json({ token, user });
@@ -69,7 +71,6 @@ const login = async (req, res) => {
   }
 };
 
-// Logout (simple version, usually handled on client-side by deleting token)
 const logout = async (req, res) => {
   try {
     // Find the user by the ID stored in the request object by the middleware

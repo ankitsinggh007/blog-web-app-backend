@@ -36,7 +36,7 @@ mongoose
 app.use("/api", apiRoutes);
 
 app.get("/health", (req, res) => {
-  res.json({ status: "OK" });
+  return res.json({ status: "OK" });
 });
 // Global Error Handling Middleware
 app.use((err, req, res, next) => {
