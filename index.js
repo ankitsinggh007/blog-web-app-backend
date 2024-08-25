@@ -9,10 +9,8 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-  origin: `${process.env.url}`,
-  methods: "GET,POST,PATCH,DELETE",
+  origin: [`${process.env.url}`, "http://localhost:5173"],
   credentials: true,
-  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
