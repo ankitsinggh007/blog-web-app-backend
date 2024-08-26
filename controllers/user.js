@@ -15,7 +15,7 @@ const register = async (req, res) => {
     });
 
     await newUser.save(); // Save user to the database
-    
+
     // generate JWT token upon successful registration
 
     const token = newUser.genToken();
@@ -109,6 +109,8 @@ const logout = async (req, res) => {
     const option = {
       expires: new Date(Date.now()),
       httpOnly: true,
+      sameSite: "none",
+      secure: true,
     };
 
     return res.status(200).cookie("token", null, option).json({
