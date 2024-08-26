@@ -12,9 +12,6 @@ const register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
     }
-    if (existingUser.username === username) {
-      return res.status(400).json({ message: "username already exists" });
-    }
 
     // Create a new user
     const newUser = new User({
