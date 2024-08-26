@@ -7,25 +7,49 @@ const register = async (req, res) => {
   try {
     const { name, username, email, password } = req.body;
 
-    // Check if the user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-
-    // Create a new user
     const newUser = new User({
       name,
       username,
       email,
-      password, // Password will be hashed by the pre-save hook
+      password, // Password will be hashed by a pre-save hook
     });
 
     await newUser.save(); // Save user to the database
+    
+    // generate JWT token upon successful registration
 
-    return res.status(201).json({ message: "User registered successfully" });
+    const token = newUser.genToken();
+
+    const option = {
+      expires: new Date(
+        Date.now() + process.env.Expire_Cokies * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    };
+
+    const user = await User.findOne({ email }, "-password");
+    res
+      .status(201)
+      .cookie("token", token, option)
+      .json({ user, message: "User registered successfully" });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    // Handle MongoDB duplicate key error (E11000)
+    if (error.code === 11000) {
+      // Extract the duplicate field from the error message
+      const duplicateField = Object.keys(error.keyPattern)[0]; // Get the field that caused the error
+
+      // Return a generic error message based on the duplicate field
+      return res
+        .status(400)
+        .json({ message: `${duplicateField} is already in use` });
+    }
+
+    // Generic error handler for other cases
+    return res
+      .status(500)
+      .json({ message: "Server error. Please try again later." });
   }
 };
 
@@ -59,7 +83,7 @@ const login = async (req, res) => {
       secure: true,
     };
     user = await User.findOne({ email }, "-password");
-    res.status(200).cookie("token", token, option).json({ token, user });
+    res.status(200).cookie("token", token, option).json({ user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   } finally {
